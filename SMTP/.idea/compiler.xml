@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SMTP" target="1.7" />
+      <module name="SMTP" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
