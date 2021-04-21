@@ -9,14 +9,68 @@ public class Mail {
     private String subject;
     private String content;
 
-    public Mail(String from, String[] to, String[] cc, String[] bcc, String subject, String content){
-        this.from = from;
-        this.to = to;
-        this.date = String.valueOf(java.time.LocalDate.now());
-        this.cc = cc;
-        this.bcc = bcc;
+    public Mail(String subject, String content){
         this.subject = subject;
         this.content = content;
     }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String[] getTo() {
+        return to;
+    }
+
+    public void setTo(String[] to) {
+        this.to = to;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String[] getCc() {
+        return cc;
+    }
+
+    public void setCc(String[] cc) {
+        this.cc = cc;
+    }
+
+    public String[] getBcc() {
+        return bcc;
+    }
+
+    public void setBcc(String[] bcc) {
+        this.bcc = bcc;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+
+
 
 }

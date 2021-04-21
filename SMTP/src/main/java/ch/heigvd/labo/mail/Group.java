@@ -17,6 +17,4 @@ public class Group { // liste de Person (min. 3)
         return groupMembers;
     }
 
-
-
 }

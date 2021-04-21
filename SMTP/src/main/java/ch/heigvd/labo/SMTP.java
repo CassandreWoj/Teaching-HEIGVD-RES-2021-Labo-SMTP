@@ -5,7 +5,7 @@ public class SMTP
 {
     public static void main( String[] args )
     {
+        // appel de la classe Prank pour envoyer les données
 
-        System.out.println( "Hello World!" );
     }
 }
