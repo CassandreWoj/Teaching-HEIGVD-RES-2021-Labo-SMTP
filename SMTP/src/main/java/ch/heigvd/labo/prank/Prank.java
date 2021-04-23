@@ -12,7 +12,14 @@ public class Prank {
 
     private Group group;
     private Mail mail;
+    // a enlever ?
     private Person sender;
+
+    public Prank(Group group, Mail mail, Person sender) {
+        this.group = group;
+        this.mail = mail;
+        this.sender = sender;
+    }
 
     public Group getGroup() {
         return group;
@@ -30,9 +37,8 @@ public class Prank {
         this.mail = mail;
     }
 
-    public Person getSender() {
-        return sender;
-    }
+    // a enlever -> useless
+    public Person getSender() { return sender; }
 
     public void setSender(Person sender) {
         this.sender = sender;

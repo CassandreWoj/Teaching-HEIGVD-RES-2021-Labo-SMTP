@@ -16,5 +16,4 @@ public class Group { // liste de Person (min. 3)
     public List<Person> getGroupMembers() {
         return groupMembers;
     }
-
 }

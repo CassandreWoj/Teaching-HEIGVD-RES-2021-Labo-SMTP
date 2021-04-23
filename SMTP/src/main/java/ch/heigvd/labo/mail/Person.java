@@ -6,4 +6,7 @@ public class Person {
     public Person(String address) {
         this.address = address;
     }
+
+    public String getAddress() { return address; }
+
 }

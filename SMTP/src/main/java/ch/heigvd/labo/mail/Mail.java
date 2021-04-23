@@ -4,14 +4,15 @@ public class Mail {
     private String from;
     private String[] to;
     private String date;
-    private String[] cc;
-    private String[] bcc;
+    private String[] cc = null;
+    private String[] bcc = null;
     private String subject;
     private String content;
 
     public Mail(String subject, String content){
         this.subject = subject;
         this.content = content;
+        this.date = java.time.LocalDate.now().toString();
     }
 
     public String getFrom() {
