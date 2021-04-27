@@ -1,9 +1,10 @@
 package ch.heigvd.labo.smtp;
 
 import ch.heigvd.labo.mail.Mail;
-import ch.heigvd.labo.prank.Prank;
+
+import java.io.IOException;
 
 public interface ISMTPClient {
 
-    void sendMail(Prank prank);
+    void sendMail(Mail mail) throws IOException;
 }

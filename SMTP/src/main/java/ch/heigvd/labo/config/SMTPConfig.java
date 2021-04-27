@@ -1,7 +1,6 @@
 package ch.heigvd.labo.smtp;
 
-import ch.heigvd.labo.SMTP;
-import ch.heigvd.labo.mail.Mail;
+import ch.heigvd.labo.config.SMTPProtocol;
 import ch.heigvd.labo.mail.Person;
 
 import java.io.*;
@@ -10,7 +9,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 public class SMTPConfig {
-    private final static Logger LOGGER = Logger.getLogger(SMTPConfig.class.getName());
+    private final static Logger LOG = Logger.getLogger(SMTPConfig.class.getName());
     private String serverAddress;
     private int port;
     private int nbGroups;
@@ -54,8 +53,8 @@ public class SMTPConfig {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        LOGGER.info("The people list has been set.");
-        LOGGER.info(String.valueOf(people.size()));
+        LOG.info("The people list has been set.");
+        LOG.info(String.valueOf(people.size()));
         return people;
     }
 
@@ -73,13 +72,13 @@ public class SMTPConfig {
 
             // lecture du fichier de mails
             while((subject = reader.readLine()) != null) {
-                text.append(subject + SMTPProtocol.endLine);
+                text.append(subject + SMTPProtocol.END_LINE);
                 String line = reader.readLine();
 
                 // lecture d'un mail
                 while (line != null && !line.equals(mailSeparator)) {
                     text.append(line);
-                    text.append(SMTPProtocol.endLine);
+                    text.append(SMTPProtocol.END_LINE);
                     line = reader.readLine();
                 }
 
@@ -91,7 +90,7 @@ public class SMTPConfig {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        LOGGER.info("The mail list has been filled.");
+        LOG.info("The mail list has been filled.");
         return mails;
     }
 
@@ -115,7 +114,7 @@ public class SMTPConfig {
 
         nbPeoplePerGroup = Math.min(listVictims.length(), nbPeoplePerGroup);
 
-        LOGGER.info("The properties have been set.");
+        LOG.info("The properties have been set.");
     }
 
 }
