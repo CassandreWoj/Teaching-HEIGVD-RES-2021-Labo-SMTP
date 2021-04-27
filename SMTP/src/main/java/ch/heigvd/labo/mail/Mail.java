@@ -3,15 +3,13 @@ package ch.heigvd.labo.mail;
 public class Mail {
     private String from;
     private String[] to;
+    private String[] cc;
+    private String[] bcc;
     private String date;
-    private String[] cc = null;
-    private String[] bcc = null;
     private String subject;
     private String content;
 
-    public Mail(String subject, String content){
-        this.subject = subject;
-        this.content = content;
+    public Mail(){
         this.date = java.time.LocalDate.now().toString();
     }
 
@@ -23,9 +21,7 @@ public class Mail {
         this.from = from;
     }
 
-    public String[] getTo() {
-        return to;
-    }
+    public String[] getTo() { return to; }
 
     public void setTo(String[] to) {
         this.to = to;
@@ -39,9 +35,7 @@ public class Mail {
         this.date = date;
     }
 
-    public String[] getCc() {
-        return cc;
-    }
+    public String[] getCc() { return cc; }
 
     public void setCc(String[] cc) {
         this.cc = cc;
