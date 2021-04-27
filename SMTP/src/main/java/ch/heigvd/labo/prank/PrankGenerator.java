@@ -1,14 +1,9 @@
 package ch.heigvd.labo.prank;
 
-import ch.heigvd.labo.SMTP;
+import ch.heigvd.labo.config.IConfigurationManager;
 import ch.heigvd.labo.mail.Group;
-import ch.heigvd.labo.mail.Mail;
 import ch.heigvd.labo.mail.Person;
-import ch.heigvd.labo.smtp.SMTPConfig;
-import ch.heigvd.labo.smtp.SMTPProtocol;
 
-import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -16,27 +11,105 @@ import java.util.logging.Logger;
 
 public class PrankGenerator {
     Random random = new Random();
-    private final static Logger LOGGER = Logger.getLogger(PrankGenerator.class.getName());
-    private int nbGroups;
-    private int nbPeoplePerGroup;
-    private ArrayList<Person> people;
-    private ArrayList<String> emailContent;
-    private String[] witnesses;
+    private final static Logger LOG = Logger.getLogger(PrankGenerator.class.getName());
 
-    public PrankGenerator(int nbGroups, int nbPeoplePerGroup, ArrayList<Person> people, ArrayList<String> emailContent, String[] witnesses) {
+
+    //new
+    private IConfigurationManager configurationManager;
+
+    public PrankGenerator(IConfigurationManager configurationManager){
+        this.configurationManager = configurationManager;
+    }
+
+    /**
+     * Génère les pranks
+     * @return
+     */
+    public ArrayList<Prank> generatePranks(){
+        ArrayList<Prank> pranks = new ArrayList<Prank>();
+        ArrayList<String> messages = configurationManager.getMessages();
+        int nbGroups = configurationManager.getNbGroups();
+        int nbPerGroup = configurationManager.getNbPerGroup();
+        int nbVictims = configurationManager.getVictims().size();
+
+        //Verify au minimum 3 victims per group
+        if(nbVictims / nbGroups < 3){
+            nbPerGroup = nbVictims/3;
+        }
+        LOG.info("NBGROUUUUPPPPY "+nbGroups);
+        ArrayList<Group> groups = createGroups(configurationManager.getVictims(), nbGroups, nbPerGroup);
+        //Pour chaque groupe, on crée un prank à qui on set :
+        // - un contenu de mail
+        // - des victimes (/!\ index 0 = sender)
+        int index =0;
+        for (Group group : groups){
+            Prank prank = new Prank();
+            LOG.info("AAAAAAAAAAAAAAAAAAAAAAA" + group.getGroupMembers().size());
+
+            ArrayList<Person> victims = group.getGroupMembers();
+            LOG.info("AAAAAAAAAAAAAAAAAAAAAAA" + victims.size());
+            Collections.shuffle(victims); //Mélange la liste des victimes
+
+            Person sender = victims.remove(0);
+            prank.setVictimSender(sender);
+            prank.setVictimsRcpt(victims);
+            prank.setWitness(configurationManager.getWitnessCc());
+
+            String content = messages.get(index);
+            index = (index+1) % messages.size();
+            prank.setMessage(content);
+
+            pranks.add(prank);
+        }
+        return pranks;
+    }
+
+
+    /**
+     * Génère les groupes de victimes
+     * @param victims
+     * @param nbGroups
+     * @param nbPersonPerGroup
+     * @return
+     */
+    public ArrayList<Group> createGroups(ArrayList<Person> victims, int nbGroups, int nbPersonPerGroup) {
+        ArrayList<Group> groups = new ArrayList<Group>();
+        ArrayList<Person> copyVictim = new ArrayList<>(victims);
+        Collections.shuffle(copyVictim); //Mélange la liste des victimes
+
+        LOG.info("NBGROU"+nbGroups);
+        //Récupère toutes les victimes pour chaque groupe
+        int nbPerGroup = nbPersonPerGroup;
+        for(int i = 0; i < nbGroups; ++i) {
+            Group g = new Group();
+
+            while(nbPerGroup > 0 && copyVictim.size() > 0){
+                Person vic = copyVictim.remove(0); // à supp
+                g.addMember(vic);//copyVictim.remove(0));
+                nbPerGroup--;
+                LOG.info("AAAA victim add"+vic.getAddress());
+            }
+            groups.add(g);
+        }
+        return groups;
+    }
+
+    /*public PrankGenerator(int nbGroups, int nbPeoplePerGroup, ArrayList<Person> people, ArrayList<String> emailContent, String[] witnesses) {
         this.nbGroups = nbGroups;
         this.nbPeoplePerGroup = nbPeoplePerGroup;
         this.people = people;
         this.emailContent = emailContent;
         this.witnesses = witnesses;
-    }
+    }*/
 
-    public ArrayList<Prank> getPranks(){
-        return createPranks();
-    }
+    /*private int nbGroups;
+    private int nbPeoplePerGroup;
+    private ArrayList<Person> people;
+    private ArrayList<String> emailContent;
+    private String[] witnesses;*/
 
     // création d'une liste de groupes
-    public ArrayList<Group> createGroups() {
+    /*public ArrayList<Group> createGroups() {
         // lecture du fichier d'adresses mail
         ArrayList<Group> groups = new ArrayList<Group>();
         ArrayList<Person> peopleCopy = people;
@@ -47,7 +120,7 @@ public class PrankGenerator {
 
             for(int j = 0; j < nbPeoplePerGroup; ++j) { // TODO : modifier le nb max de personnes dans le groupe
                 if(peopleCopy.isEmpty()) {
-                    LOGGER.info("Breaking in group creation");
+                    LOG.info("Breaking in group creation");
                     break;
                 }
                 member = peopleCopy.get(random.nextInt(peopleCopy.size()));
@@ -61,9 +134,9 @@ public class PrankGenerator {
         }
 
         return groups;
-    }
+    }*/
 
-    public ArrayList<Prank> createPranks(){
+    /*public ArrayList<Prank> createPranks(){
         ArrayList<Group> groups = createGroups();
         Collections.shuffle(groups);
         Collections.shuffle(emailContent);
@@ -74,7 +147,6 @@ public class PrankGenerator {
         Group group;
         Person sender;
         String[] parts;
-
         for(int i = 0; i < groups.size(); ++i){
             group = groups.get(i);
             sender = group.getGroupMembers().get(0);
@@ -84,7 +156,7 @@ public class PrankGenerator {
             content = parts[1];
 
             // créer un email
-            Mail mail = new Mail(subject, content);
+            Mail mail = new Mail();//(subject, content);
             // mettre champs FROM avec le sender
             mail.setFrom(sender.getAddress());
             // mettre champs TO avec les autres membres du groupe
@@ -96,9 +168,10 @@ public class PrankGenerator {
             // ajouter les copie et copie cachée
             mail.setCc(witnesses);
 
+
             pranks.add(new Prank(group, mail, sender));
         }
         return pranks;
-    }
+    }*/
 
 }

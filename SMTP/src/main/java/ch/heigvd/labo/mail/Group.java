@@ -9,7 +9,7 @@ public class Group {
     public void addMember(Person person) {
         groupMembers.add(person);
     }
-    
+
     public ArrayList<Person> getGroupMembers() {
         return groupMembers;
     }

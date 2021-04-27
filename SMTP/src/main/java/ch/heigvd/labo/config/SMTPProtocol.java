@@ -1,4 +1,4 @@
-package ch.heigvd.labo.smtp;
+package ch.heigvd.labo.config;
 
 public class SMTPProtocol {
     public static final String EHLO = "EHLO ";

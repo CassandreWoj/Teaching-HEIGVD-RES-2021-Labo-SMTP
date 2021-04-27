@@ -1,6 +1,5 @@
-package ch.heigvd.labo.smtp;
+package ch.heigvd.labo.config;
 
-import ch.heigvd.labo.config.SMTPProtocol;
 import ch.heigvd.labo.mail.Person;
 
 import java.io.*;
