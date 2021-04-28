@@ -11,6 +11,7 @@ public class SMTPProtocol {
     public static final String TO = "To: ";
     public static final String CC = "Cc: ";
     public static final String DATE = "Date: ";
+    public static final String SUBJECT = "Subject: ";
 
     public static final String END_LINE = "\r\n";
     public static final String END_DATA = END_LINE + "." + END_LINE;

@@ -114,23 +114,23 @@ public class SMTPClient implements ISMTPClient {
         // Ajoute la date
         writer.print(SMTPProtocol.DATE +mail.getDate());
         writer.print(SMTPProtocol.END_LINE);
-        LOG.info(mail.getDate());
+        LOG.info("Date: " + mail.getDate());
 
 
         // Encodage du sujet du mail avec base64 pour conserver les accents et les espaces
         String subjectB64 = Base64.getEncoder().encodeToString(mail.getSubject().getBytes());
         String subjectToSend = "=?utf-8?B?" + subjectB64 + "?=";
         // Envoi du sujet Suject: et du contenu du mail
-        writer.print("Subject: " + subjectToSend);
+        writer.print(SMTPProtocol.SUBJECT + subjectToSend);
         writer.print(SMTPProtocol.END_LINE);
-        LOG.info("Sujet " + mail.getSubject());
+        LOG.info("Subject: " + mail.getSubject());
         writer.print(mail.getContent());
-        LOG.info("Content " + mail.getContent());
+        LOG.info("Content: " + mail.getContent());
 
         // Signature du mail avec le nom et le prénom de l'envoyeur
         String signatureSender = sender[1] + " " + sender[2];
         writer.print(signatureSender);
-        LOG.info(signatureSender);
+        LOG.info("Signature sender: "+signatureSender);
 
         writer.print(SMTPProtocol.END_DATA);
         writer.flush();
