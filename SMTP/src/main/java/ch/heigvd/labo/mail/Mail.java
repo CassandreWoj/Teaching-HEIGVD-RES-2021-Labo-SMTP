@@ -41,9 +41,7 @@ public class Mail {
         this.cc = cc;
     }
 
-    public String[] getBcc() {
-        return bcc;
-    }
+    public String[] getBcc() { return bcc;     }
 
     public void setBcc(String[] bcc) {
         this.bcc = bcc;
@@ -64,8 +62,4 @@ public class Mail {
     public void setContent(String content) {
         this.content = content;
     }
-
-
-
-
 }
