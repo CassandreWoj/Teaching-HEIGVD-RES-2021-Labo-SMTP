@@ -14,11 +14,13 @@ A partir de fichiers contenant une liste d'adresses e-mail et des modèles de ma
 
 L'utilisateur peut installer l'application sur sa machine et s'il souhaite modifier le code source, `maven` doit être préalablement installé car le projet doit être compilé avant d'être exécuté.
 
+
+
 ## Mock Server
 
 ### Qu'est-ce qu'un `Mock Server` ?
 
-Un `mock server` permet de tester des envois de mails sans les envoyer réellement. Le serveur va capturer les mails envoyés et les afficher sur une interface web, sans qu'ils parviennent dans les boîtes mails des destinataires. 
+Un `mock server` permet de tester des envois de mails sans les envoyer réellement. Le serveur `mock` va capturer les mails envoyés et les afficher sur une interface web, sans qu'ils parviennent dans les boîtes mails des destinataires. 
 
 Ces serveurs permettent à des développeurs de tester les envois de mails automatisés sans surcharger une adresse mail existante. 
 
@@ -43,7 +45,7 @@ $ docker inspect <nom> | grep -i ipaddr
 
 Le port 8282 sera toujours utilisé. 
 
-### Installation manuelle
+### Installation sans Docker
 
 L'installation est très facile et très rapide, il faut simplement télécharger le fichier `.jar` via ce [lien](https://github.com/tweakers-dev/MockMock/blob/master/release/MockMock.jar?raw=true). Attention, il y a une modification à apporter au `pom.xml` selon les indications contenues dans cette [PR](https://github.com/tweakers/MockMock/pull/8/commits/fa4bea3079d88d7d7b9a28e3b0864ba6f3d9f7ff). 
 
@@ -63,7 +65,14 @@ Après avoir lancé l'application, il faut se connecter sur l'interface web en p
 
 ## Utilisation de l'application
 
-Afin d'utiliser l'application, il faut que l'utilisateur complète trois fichiers : `config.properties`, `email_template.utf8` , `email_addresses.utf8`. Ces fichiers doivent être stockés dans le répertoire `config` à la racine du projet.
+La première action à effectuer est de cloner ce repo : 
+
+```shell
+$ git clone git@github.com:CassandreWoj/Teaching-HEIGVD-RES-2021-Labo-SMTP.git
+$ cd Teaching-HEIGVD-RES-2021-Labo-SMTP
+```
+
+Afin d'utiliser l'application, il faut que l'utilisateur complète trois fichiers dans le répertoire `SMTP/config`: `config.properties`, `email_template.utf8` , `email_addresses.utf8`. Ces fichiers doivent être stockés dans le répertoire `config` à la racine du projet.
 
 Le fichier `email_template.utf8` contient des modèles d'e-mails à envoyer ainsi que le sujet. Chaque mail est séparé par `==` avec un retour à la ligne : 
 
@@ -82,6 +91,8 @@ Je suis une fleur, une très jolie fleur !
 [...]
 ```
 
+
+
 Le fichier `email_addresses.utf8` doit contenir des adresses e-mail de personnes à qui l'utilisateur veut jouer un tour. Une adresse e-mail est écrite sur une ligne. Nous nous sommes basés sur le format des adresses e-mail scolaires/professionnelles de beaucoup d'entreprises : 
 
 ```
@@ -93,6 +104,8 @@ bob.dupont@rts.ch
 ```
 
 Il faut mettre au minimum trois adresses dans ce fichier pour que la campagne fonctionne.
+
+
 
 Le fichier `config.properties` doit contenir les informations nécessaires pour se connecter au serveur SMTP et pour envoyer les e-mails : 
 
@@ -135,11 +148,13 @@ $ java -jar target/SMTP-1.0-SNAPSHOT.jar
 
 L'application envoie une campagne de mails puis s'arrête. 
 
+
+
 ## Description de l'implémentation
 
 ### Diagramme de classes
 
-![](images/RES-Labo_SMTP.png)
+![](figures/RES-Labo_SMTP.png)
 
 La classe SMTP est le `main` du projet. A travers elle, nous instancions un objet `ConfigurationManager`, un objet `PrankGenerator` et un objet `SMTPClient`. 
 
@@ -153,16 +168,16 @@ L'objet `SMTPClient` va s'occuper de la communication réelle avec le serveur : 
 
 Exécution de l'application avec Docker (dialogue entre le client et le serveur SMTP) : 
 
-<img src="images/smtp_prank_email_sent.png" style="zoom: 80%;" />
+<img src="figures/smtp_prank_email_sent.png" style="zoom: 80%;" />
 
 Réception des e-mails sur l'interface web de MockMock :
 
-<img src="images/mockmock_email_recu.png" style="zoom: 80%;" />
+<img src="figures/mockmock_email_recu.png" style="zoom: 80%;" />
 
 Vue complète de l'e-mail reçu sur l'interface web de MockMock : 
 
-<img src="images/mockmock_full_email_recu.png" style="zoom:80%;" />
+<img src="figures/mockmock_full_email_recu.png" style="zoom:80%;" />
 
 Notification dans le terminal de MockMock que les e-mails ont bien été reçus :
 
-![](images/mockmock_email_received.png)
+![](figures/mockmock_email_received.png)
