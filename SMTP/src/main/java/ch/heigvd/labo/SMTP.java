@@ -1,6 +1,5 @@
 package ch.heigvd.labo;
 
-
 import ch.heigvd.labo.config.ConfigurationManager;
 import ch.heigvd.labo.prank.Prank;
 import ch.heigvd.labo.prank.PrankGenerator;
@@ -14,7 +13,6 @@ public class SMTP
 {
     private final static Logger LOGGER = Logger.getLogger(SMTP.class.getName());
     public static void main( String[] args ) throws IOException {
-
         ConfigurationManager conf = new ConfigurationManager();
         PrankGenerator generator = new PrankGenerator(conf);
         SMTPClient client = new SMTPClient(conf.getServerAddress(), conf.getPort());

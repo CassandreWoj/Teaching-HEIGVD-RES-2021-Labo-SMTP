@@ -1,6 +1,5 @@
 package ch.heigvd.labo.smtp;
 
-import ch.heigvd.labo.SMTP;
 import ch.heigvd.labo.config.SMTPProtocol;
 import ch.heigvd.labo.mail.Mail;
 
@@ -30,7 +29,7 @@ public class SMTPClient implements ISMTPClient {
      */
     @Override
     public void sendMail(Mail mail) throws IOException {
-        LOG.info("Prank à envoyer via SMTP");
+        LOG.info("Prank à envoyer via SMTP "+ serverAddress + " " + port);
         // Etablissement d'une connexion avec le serveur SMTP précisé dans le fichier de configuration
         this.socketClient = new Socket(serverAddress, port);
         this.writer = new PrintWriter(new OutputStreamWriter(socketClient.getOutputStream(), "UTF-8"), true);

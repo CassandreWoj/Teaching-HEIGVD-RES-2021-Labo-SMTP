@@ -1,5 +1,6 @@
 package ch.heigvd.labo.config;
 
+import ch.heigvd.labo.SMTP;
 import ch.heigvd.labo.mail.Person;
 
 import java.io.BufferedReader;
@@ -63,6 +64,7 @@ public class ConfigurationManager{
             // Initialisation des données avec le fichier config.properties complété par l'utilisateur rigolo
             properties = new Properties();
             properties.load(new FileInputStream(configurationProperties));
+
             this.serverAddress = properties.getProperty("serverAddress");
             this.port = Integer.parseInt(properties.getProperty("port"));
             this.nbGroups = Integer.parseInt(properties.getProperty("nbGroups"));
