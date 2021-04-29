@@ -14,7 +14,7 @@ A partir de fichiers contenant une liste d'adresses e-mail et des modèles de ma
 
 
 
-## Mocker Server
+## Mock Server
 
 ### Qu'est-ce qu'un `Mock Server` ?
 
@@ -32,7 +32,7 @@ L'installation est très facile et très rapide, il faut simplement télécharge
 
 ```shell
 // Pour lancer MockMock avec des ports personnalisés
-$ java -jar MockMock.jar -p 25000 -h 8080
+$ java -jar MockMock.jar -p 2525 -h 8282
 
 // Pour lancer MockMock avec les valeurs par défaut
 $ java -jar MockMock.jar
@@ -40,15 +40,27 @@ $ java -jar MockMock.jar
 
 Après avoir lancé l'application, il faut se connecter sur l'interface web en passant par un navigateur et en allant sur `http://localhost:8282` ou sur le port précisé ci-dessus avec l'option `-h`. Sur l'interface web, tous les mails envoyés apparaissent. 
 
+
+
 ## Utilisation de l'application
 
 // Lancement du Docker
+
+
 
 ## Description de l'implémentation
 
 ### Diagramme de classes
 
-// Diagramme à créer + explications textuelles à fournir sur les classes et leurs rôles
+![](images/RES-Labo_SMTP.png)
+
+La classe SMTP est le `main` du projet. A travers elle, nous instancions un objet `ConfigurationManager`, un objet `PrankGenerator` et un objet `SMTPClient`. 
+
+L'objet `ConfigurationManager` permet de lire le fichier de configuration `config.properties` modifié par l'utilisateur de l'application pour y insérer ses informations personnalisées. En lisant ce fichier, il récupère toutes les informations nécessaires à l'établissement d'une connexion avec le serveur SMTP, ainsi que les informations reliées à la campagne de pranks que l'utilisateur veut mener. L'instance de `ConfigurationManager` va également lire et récupérer les adresses e-mail des victimes du prank et les modèles de mails à leur envoyer. 
+
+L'objet `PrankGenerator` va s'occuper de générer les pranks en créant les groupes de victimes (les groupes sont composées de personnes, qui sont représentées par une adresse e-mail, un prénom et un nom), puis en appelant la classe `Prank` qui va elle, générer le mail à envoyer au groupe. 
+
+L'objet `SMTPClient` va s'occuper de la communication réelle avec le serveur : il envoie les données selon le protocole SMTP et lit les réponses. 
 
 ### Exemples
 
