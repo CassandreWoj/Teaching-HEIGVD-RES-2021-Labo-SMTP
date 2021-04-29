@@ -4,6 +4,5 @@ LABEL authors="Gwendoline Dossegger <gwendoline.dossegger@heig-vd.ch>, Cassandre
 COPY MockMock-1.4.0.one-jar.jar /opt/app/MockMock.jar
 
 EXPOSE 2525
-EXPOSE 8282
 
 CMD ["java", "-jar", "/opt/app/MockMock.jar","-p","2525"]
